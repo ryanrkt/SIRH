@@ -1,4 +1,4 @@
-package com.app.rh.controller;
+package com.app.rh.controller.accueil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,6 +8,6 @@ public class AccueilController {
 
     @GetMapping("/")
     public String accueil() {
-        return "accueil";
+        return "login/login";
     }
 }

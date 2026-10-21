@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Candidature – Recrut</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body data-bare>
@@ -20,7 +20,7 @@
             <p><a href="offres.html">Retour aux offres</a></p>
         </div>
     </main>
-    <script src="app.js"></script>
+    <script src="/js/app.js"></script>
     <script>f.onsubmit = e => { e.preventDefault(); const v = Object.fromEntries(new FormData(f)); localStorage.setItem('rh_user', JSON.stringify({ role: 'candidat', nom: v.nom, email: v.email })); D.candidats.push({ id: nid(D.candidats), offre: +P.get('offre'), nom: v.nom, email: v.email, tel: v.tel, remarque: v.remarque.trim(), sel: 0 }); save(); alert('Candidature envoyée.'); location = 'offres.html' }</script>
 </body>
 

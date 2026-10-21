@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Offres – Recrut</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Offres disponibles</h1>
+        <div class="g" id="g"></div>
+    </main>
+    <script src="app.js"></script>
+    <script>g.innerHTML = D.offres.map(o => `<div class="card"><h3>${o.titre}</h3><p class=mut>${o.dept} – ${o.salaire.toLocaleString('fr-FR')} Ar/mois</p><a class="btn ghost" href="offre-detail.html?id=${o.id}">Voir plus</a></div>`).join('') || '<p class=empty>Aucune offre pour le moment.</p>'</script>
+</body>
+
+</html>
