@@ -140,7 +140,7 @@ if (!document.body.hasAttribute("data-bare")) {
   ];
   document.body.insertAdjacentHTML(
     "afterbegin",
-    `<header><a class=brand href=offres.html>Recrut</a><nav>${L.map(([h, t]) => `<a href=${h}.html${location.pathname.endsWith(h + ".html") ? " class=on" : ""}>${t}</a>`).join("")}</nav><a class=out href=index.html>Déconnexion</a></header>`,
+    `<header><a class=brand href=/offres>Recrut</a><nav>${L.map(([h, t]) => `<a href=${h}.html${location.pathname.endsWith(h + ".html") ? " class=on" : ""}>${t}</a>`).join("")}</nav><a class=out href=/>Déconnexion</a></header>`,
   );
 }
 function tbl(el, heads, rows) {
