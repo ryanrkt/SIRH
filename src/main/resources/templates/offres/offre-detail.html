@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Fiche d'offre – Recrut</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
     <main></main>
-    <script src="app.js"></script>
+    <script src="/js/app.js"></script>
     <script>const o = D.offres.find(x => x.id == P.get('id')); $('main').innerHTML = o ? `<a href=offres.html>Retour aux offres</a><div class=card style=margin-top:12px><h1>${o.titre}</h1><p class=mut>${o.dept} – ${o.salaire.toLocaleString('fr-FR')} Ar/mois</p><p>${o.desc}</p><button class=btn onclick=post()>Postuler</button></div>` : '<p class=empty>Offre introuvable.</p>'; function post() { if (!U) return location = 'candidature.html?offre=' + o.id; D.candidats.push({ id: nid(D.candidats), offre: o.id, nom: U.nom, email: U.email, tel: '', remarque: '', sel: 0 }); save(); alert('Candidature envoyée.') }</script>
 </body>
 
