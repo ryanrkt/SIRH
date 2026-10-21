@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Employés – Recrut</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Liste des employés</h1>
+        <div class="card tw" id="t"></div>
+    </main>
+    <script src="app.js"></script>
+    <script>tbl($('#t'), ['Nom', 'Poste', 'Département', 'Embauché le', 'Salaire (Ar)'], D.employes.map(e => [e.nom, e.poste, e.dept, e.date, e.salaire]))</script>
+</body>
+
+</html>

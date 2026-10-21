@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Candidats – Recrut</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <div class="bar">
+            <h1 id="h">Candidats par offre</h1>
+            <button class="btn" id="sel">Faire la sélection</button>
+        </div>
+        <div class="card tw" id="t">
+
+        </div>
+    </main>
+    <script src="app.js"></script>
+    <script>const o = P.get('offre'), L = D.candidats.filter(c => !o || c.offre == o), of = D.offres.find(x => x.id == o); if (of) h.textContent = 'Candidats – ' + of.titre; tbl($('#t'), ['', 'Nom', 'Email', 'Téléphone', 'Remarque', ''], L.map(c => [`<input type=checkbox value=${c.id} ${c.sel ? 'checked' : ''}>`, c.nom, c.email, c.tel || '–', c.remarque || '–', `<a class="btn ghost" href="candidat-detail.html?id=${c.id}">Détail</a>`])); sel.onclick = () => { const ids = [...document.querySelectorAll('input:checked')].map(i => +i.value); L.forEach(c => c.sel = ids.includes(c.id) ? 1 : 0); save(); location = 'selectionnes.html' + (o ? '?offre=' + o : '') }</script>
+</body>
+
+</html>

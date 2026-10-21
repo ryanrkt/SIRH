@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Demande de besoin – Recrut</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main>
+        <h1>Demande de besoin du département</h1>
+        <form id="f" class="card f"><label>Département<input name="dept" required></label><label>Poste<input
+                    name="poste" required></label><label>Date de besoin<input type="date" name="date"
+                    required></label><label>Salaire proposé (Ar)<input type="number" name="salaire" min="0"
+                    required></label><label>Effectif<input type="number" name="effectif" min="1" value="1"
+                    required></label>
+            <div class="w"><button class="btn">Envoyer la demande</button></div>
+        </form>
+    </main>
+    <script src="app.js"></script>
+    <script>f.onsubmit = e => { e.preventDefault(); const v = Object.fromEntries(new FormData(f)); D.demandes.push({ id: nid(D.demandes), dept: v.dept, poste: v.poste, date: v.date, salaire: +v.salaire, effectif: +v.effectif, statut: 'attente' }); save(); alert('Demande envoyée au service RH.'); f.reset() }</script>
+</body>
+
+</html>
