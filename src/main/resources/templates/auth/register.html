@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - SIRH</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Notre CSS Pro -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="auth-body">
+
+    <div class="split-container">
+        <!-- Volet de gauche : Formulaire d'inscription -->
+        <div class="auth-left-pane">
+            
+            <div class="mb-4">
+                <h2 class="fw-bold" style="color: var(--ink); font-size: 26px;">Inscription</h2>
+                <p class="text-muted" style="font-size: 14px;">Créez votre profil candidat.</p>
+            </div>
+
+            <!-- Message d'erreur du Service -->
+            <div th:if="${error}" class="alert-custom-danger" th:text="${error}"></div>
+
+            <!-- Formulaire d'inscription -->
+            <form th:action="@{/register}" th:object="${utilisateur}" method="post">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>
+                            Nom
+                            <input type="text" th:field="*{nom}" class="form-control" required placeholder="Rakoto">
+                        </label>
+                    </div>
+                    <div class="col-md-6">
+                        <label>
+                            Prénom
+                            <input type="text" th:field="*{prenom}" class="form-control" required placeholder="Hery">
+                        </label>
+                    </div>
+                </div>
+
+                <label>
+                    Adresse Email
+                    <input type="email" th:field="*{email}" class="form-control" required placeholder="candidat@exemple.mg">
+                </label>
+
+                <label>
+                    Mot de passe
+                    <input type="password" th:field="*{motPasse}" class="form-control" required placeholder="••••••••">
+                </label>
+
+                <label>
+                    Date de naissance
+                    <input type="date" th:field="*{dateNaissance}" class="form-control">
+                </label>
+
+                <button type="submit" class="btn-custom ok mt-3">S'inscrire</button>
+            </form>
+
+            <div class="auth-footer text-start mt-4">
+                <span class="text-muted">Déjà un compte ?</span> 
+                <a th:href="@{/login}">Se connecter</a>
+            </div>
+        </div>
+
+        <!-- Volet de droite : Image professionnelle -->
+        <div class="auth-right-pane"></div>
+    </div>
+
+</body>
+</html>
