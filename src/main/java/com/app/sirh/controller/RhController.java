@@ -1,12 +1,19 @@
 package com.app.sirh.controller;
 
+import com.app.sirh.model.DemandeRecrutement;
+import com.app.sirh.model.DemandeRecrutement.DemandeStatutEnum;
 import com.app.sirh.repository.DemandeRecrutementRepository;
 import com.app.sirh.repository.EmployeRepository;
 import com.app.sirh.security.CustomUserDetails;
+
+import java.util.List;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -34,4 +41,38 @@ public class RhController {
 
         return "rh/dashboard";
     }
+
+    @GetMapping("/demandes-recrutement")
+    public String listerDemandes(Model model) {
+        List<DemandeRecrutement> demandes = demandeRecrutementRepository.findAll();
+        model.addAttribute("demandes", demandes);
+        return "rh/demande-recrutement-list";
+    }
+
+    @PostMapping("/demandes-recrutement/{id}/valider")
+    public String validerDemande(@PathVariable Long id) {
+        DemandeRecrutement demande = demandeRecrutementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Demande introuvable"));
+
+        if (demande.getStatut() == DemandeStatutEnum.EN_ATTENTE_RH) {
+            demande.setStatut(DemandeStatutEnum.EN_ATTENTE_FINANCE); 
+            demandeRecrutementRepository.save(demande);
+        }
+
+        return "redirect:/rh/demandes-recrutement?success";
+    }
+
+    @PostMapping("/demandes-recrutement/{id}/refuser")
+    public String refuserDemande(@PathVariable Long id) {
+        DemandeRecrutement demande = demandeRecrutementRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Demande introuvable"));
+
+        if (demande.getStatut() == DemandeStatutEnum.EN_ATTENTE_RH) {
+            demande.setStatut(DemandeStatutEnum.REFUSEE);
+            demandeRecrutementRepository.save(demande);
+        }
+
+        return "redirect:/rh/demandes-recrutement?refuse";
+    }
 }
+
