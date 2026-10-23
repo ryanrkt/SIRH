@@ -41,24 +41,15 @@ public class DemandeRecrutement {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
-    @Column(name = "salaire", nullable = false, precision = 12, scale = 2)
-    private BigDecimal salaire;
+    @Column(name = "salaire")
+    private Integer salaire;
 
-    // Getter et Setter
-    public BigDecimal getSalaire() {
-        return salaire;
-    }
-
-    public void setSalaire(BigDecimal salaire) {
-        this.salaire = salaire;
-    }
+    @Column(name = "date_limite")
+    LocalDate dateLimite;
 
     public DemandeRecrutement() {
     }
 
-    public enum DemandeStatutEnum {
-        EN_ATTENTE_RH, EN_ATTENTE_FINANCE, EN_ATTENTE_DIRECTION, APPROUVEE, REFUSEE
-    }
 
     // Getters et Setters
     public Long getId() {
@@ -130,6 +121,7 @@ public class DemandeRecrutement {
 
     public void setDateLimite(LocalDate dateLimite) {
         this.dateLimite = dateLimite;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o)

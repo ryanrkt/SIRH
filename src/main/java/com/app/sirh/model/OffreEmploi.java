@@ -49,9 +49,6 @@ public class OffreEmploi {
 
     public OffreEmploi() {}
 
-    public enum OffreStatutEnum {
-        BROUILLON, PUBLIEE, FERMEE, ANNULEE
-    }
 
     // Getters et Setters
     public Long getId() { return id; }
