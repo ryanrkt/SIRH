@@ -58,3 +58,30 @@ INSERT INTO employe (utilisateur_id, departement_id, matricule, date_embauche) V
 -- Employé simple (rattaché au département IT)
 ((SELECT id FROM utilisateur WHERE email = 'employe@sirh.mg'), 
  (SELECT id FROM departement WHERE code = 'IT'), 'MAT-IT-002', '2023-01-10');
+
+ INSERT INTO poste (departement_id, titre, description) VALUES
+(1, 'Administrateur système', 'Administration des serveurs et des systèmes informatiques'),
+(1, 'Technicien informatique', 'Installation, maintenance et dépannage du matériel informatique'),
+(1, 'Ingénieur logiciel', 'Conception et développement de logiciels'),
+
+(2, 'Gestionnaire de paie', 'Préparation et gestion des bulletins de paie'),
+(2, 'Responsable formation', 'Organisation et suivi des formations des employés'),
+(2, 'Gestionnaire du personnel', 'Suivi des dossiers administratifs du personnel'),
+
+(3, 'Contrôleur de gestion', 'Analyse des coûts et suivi des budgets'),
+(3, 'Auditeur financier', 'Contrôle des comptes et vérification des opérations financières'),
+(3, 'Responsable financier', 'Supervision des activités financières'),
+
+(4, 'Assistant commercial', 'Assistance à l’équipe commerciale et suivi des commandes'),
+(4, 'Chargé de clientèle', 'Gestion des relations avec les clients'),
+(4, 'Responsable marketing', 'Élaboration et suivi des stratégies marketing');
+
+
+INSERT INTO demande_recrutement
+    (departement_id, demandeur_id, poste_id,
+     nombre_poste, salaire, date_limite, statut)
+VALUES
+    (1, 1, 1, 2, 1500000, '2026-11-30', 'EN_ATTENTE_DIRECTION'),
+    (1, 1, 2, 1, 1200000, '2026-12-15', 'APPROUVEE'),
+    (2, 2, 3, 3, 1000000, '2026-12-20', 'EN_ATTENTE_RH'),
+    (2, 3, 4, 1, 1800000, '2027-01-15', 'REFUSEE');

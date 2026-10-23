@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouvelle demande de recrutement</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f5;
+            color: #26352e;
+        }
+
+        header {
+            background: #0f3c2b;
+            color: white;
+            padding: 20px 40px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 45px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        h1 {
+            margin-top: 0;
+            color: #0f3c2b;
+            font-size: 27px;
+        }
+
+        .description {
+            color: #6b7770;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        .required {
+            color: #b42318;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccd5cf;
+            border-radius: 6px;
+            font-size: 15px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid #a4c5b4;
+            border-color: #265c4b;
+        }
+
+        select:disabled {
+            background: #f0f2f0;
+            cursor: not-allowed;
+        }
+
+        .help {
+            display: block;
+            margin-top: 7px;
+            color: #6b7770;
+            font-size: 13px;
+        }
+
+        .info {
+            padding: 15px;
+            background: #edf4ef;
+            border-left: 4px solid #265c4b;
+            border-radius: 5px;
+            line-height: 1.5;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .alert {
+            padding: 13px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #e5f5e9;
+            color: #176534;
+        }
+
+        .error {
+            background: #fde8e7;
+            color: #a32119;
+        }
+
+        .error-field {
+            display: block;
+            color: #b42318;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: white;
+            color: #37453d;
+            border: 1px solid #ccd5cf;
+        }
+
+        .btn-submit {
+            background: #0f3c2b;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #265c4b;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                margin: 25px auto;
+            }
+
+            .card {
+                padding: 22px;
+            }
+
+            .actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                text-align: center;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    Direction
+</header>
+
+<main class="container">
+    <div class="card">
+
+        <h1>Nouvelle demande de recrutement</h1>
+
+        <p class="description">
+            Renseignez les informations nécessaires pour exprimer
+            votre besoin en personnel.
+        </p>
+
+        <div th:if="${message}"
+             class="alert success"
+             th:text="${message}">
+        </div>
+
+        <div th:if="${erreur}"
+             class="alert error"
+             th:text="${erreur}">
+        </div>
+
+        <form th:action="@{/direction/demandes-recrutement}"
+              th:object="${demande}"
+              method="post">
+
+          <div class="form-group">
+                <label for="dateLimite">
+                    Date limite de recrutement <span class="required">*</span>
+                </label>
+
+                <input type="date"
+                       id="dateLimite"
+                       th:field="*{dateLimite}"
+                       required>
+
+                <span class="help">
+                    Indiquez la date limite pour le recrutement.
+                </span>
+
+                <span class="error-field"
+                      th:if="${#fields.hasErrors('dateLimite')}"
+                      th:errors="*{dateLimite}">
+                </span>
+            <!-- Département -->
+            <div class="form-group">
+                <label for="departement">
+                    Département <span class="required">*</span>
+                </label>
+
+                <select id="departement" name="departementId" required>
+                    <option value="">Choisir un département</option>
+
+                    <option th:each="d : ${departements}"
+                            th:value="${d.id}"
+                            th:text="${d.libelle}">
+                    </option>
+                </select>
+            </div>
+
+            <!-- Poste -->
+            <div class="form-group">
+                <label for="poste">
+                    Poste à recruter <span class="required">*</span>
+                </label>
+
+                <select id="poste" th:field="*{poste.id}" required disabled>
+                    <option value="">Choisir d'abord un département</option>
+                </select>
+
+                <span class="error-field"
+                      th:if="${#fields.hasErrors('poste')}"
+                      th:errors="*{poste}">
+                </span>
+
+                <span id="erreurPostes" class="error-field"></span>
+            </div>
+    <div class="form-group">
+                <label for="salaire">
+                    Salaire proposé <span class="required">*</span>
+                </label>
+
+                <input type="number"
+       id="salaire"
+       th:field="*{salaire}"
+       min="0"
+       step="1"
+       required
+       placeholder="Exemple : 2500">
+
+                <span class="help">
+                    Indiquez le salaire proposé pour le poste.
+                </span>
+
+                <span class="error-field"
+                      th:if="${#fields.hasErrors('salaire')}"
+                      th:errors="*{salaire}">
+                </span>
+            </div>
+            <!-- Nombre de personnes -->
+            <div class="form-group">
+                <label for="nombrePoste">
+                    Nombre de personnes à recruter
+                    <span class="required">*</span>
+                </label>
+
+                <input type="number"
+                       id="nombrePoste"
+                       th:field="*{nombrePoste}"
+                       min="1"
+                       required
+                       placeholder="Exemple : 2">
+
+                <span class="help">
+                    Indiquez le nombre de personnes souhaitées.
+                </span>
+
+                <span class="error-field"
+                      th:if="${#fields.hasErrors('nombrePoste')}"
+                      th:errors="*{nombrePoste}">
+                </span>
+            </div>
+
+            <div class="info">
+                Le demandeur, le département et le statut sont
+                déterminés par le système lors de l'enregistrement.
+            </div>
+
+            <div class="actions">
+                <a th:href="@{/direction/dashboard}"
+                   class="btn btn-cancel">
+                    Annuler
+                </a>
+
+                <button type="submit" class="btn btn-submit">
+                    Envoyer la demande
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</main>
+
+<script src="/js/poste.js"></script>
+
+</body>
+</html>

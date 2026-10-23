@@ -148,7 +148,16 @@ CREATE TABLE demande_recrutement (
     statut demande_statut_enum NOT NULL DEFAULT 'EN_ATTENTE_RH',
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+ALTER TABLE demande_recrutement
+ADD COLUMN salaire NUMERIC(12,2) NOT NULL DEFAULT 0
+CHECK (salaire >= 0);
 
+ALTER TABLE demande_recrutement
+ADD COLUMN date_limite DATE NOT NULL;
+
+ALTER TABLE demande_recrutement
+ALTER COLUMN salaire TYPE INTEGER
+USING salaire::INTEGER;
 -- Approbations des demandes
 CREATE TABLE approbation_recrutement (
     id BIGSERIAL PRIMARY KEY,

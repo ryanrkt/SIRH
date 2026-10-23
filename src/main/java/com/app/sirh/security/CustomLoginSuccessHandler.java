@@ -38,7 +38,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
                         redirectUrl = "/finance/dashboard";
                         break;
                     case "DIRECTION":
-                        redirectUrl = "/direction/dashboard/";
+                        redirectUrl = "/direction/dashboard";
                         break;
                     default:
                         // Autres départements (ex: IT, MARKETING) -> interface de demande de recrutement

@@ -11,4 +11,6 @@ import com.app.sirh.model.Employe;
 public interface EmployeRepository extends JpaRepository<Employe, Long> {
     
     Optional<Employe> findByUtilisateurId(Long utilisateurId);
+
+    
 }
