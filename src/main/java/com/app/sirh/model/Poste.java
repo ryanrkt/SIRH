@@ -1,12 +1,11 @@
 package com.app.sirh.model;
 
 import jakarta.persistence.*;
-import java.util.Objects;
 
 @Entity
-@Table(name = "poste", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"departement_id", "titre"})
-})
+@Table(
+    name = "poste"
+)
 public class Poste {
 
     @Id
@@ -26,13 +25,6 @@ public class Poste {
     public Poste() {
     }
 
-    public Poste(Departement departement, String titre, String description) {
-        this.departement = departement;
-        this.titre = titre;
-        this.description = description;
-    }
-
-    // GETTERS et SETTERS
     public Long getId() {
         return id;
     }

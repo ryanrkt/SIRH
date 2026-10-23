@@ -1,20 +1,306 @@
-<!doctype html>
-<html lang="fr">
 
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Direction – Recrut</title>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des demandes de recrutement</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f5;
+            color: #26332d;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .description {
+            color: #69766f;
+            margin: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #0f3c2b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #265c4b;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .search {
+            padding: 10px 12px;
+            border: 1px solid #d5ddd8;
+            border-radius: 6px;
+            width: 260px;
+            max-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e8ece9;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f7f9f8;
+            color: #526159;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tbody tr:hover {
+            background: #f8faf9;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .en-attente {
+            background: #fff1cc;
+            color: #805b00;
+        }
+
+        .approuvee {
+            background: #d9f3e4;
+            color: #17643c;
+        }
+
+        .refusee {
+            background: #fde2e2;
+            color: #a12626;
+        }
+
+        .action-link {
+            color: #0f3c2b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .action-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #69766f;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            .search {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <main>
-        <h1>Validation des demandes de besoin</h1>
-        <div class="card tw" id="t"></div>
-    </main>
-    <script src="app.js"></script>
-    <script>valid('direction', 'validee')</script>
-</body>
+<div class="container">
 
+    <div class="header">
+        <div>
+            <h1>Demandes de recrutement</h1>
+            <p class="description">
+                Consultez les demandes de recrutement enregistrées.
+            </p>
+        </div>
+
+        <a th:href="@{/direction/demandes-recrutement}"
+           class="btn btn-primary">
+            Nouvelle demande
+        </a>
+    </div>
+
+    <div class="table-container">
+
+        <div class="table-header">
+            <h2>Liste des demandes</h2>
+
+            <input type="text"
+                   id="recherche"
+                   class="search"
+                   placeholder="Rechercher une demande...">
+        </div>
+
+        <table id="tableDemandes">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Département</th>
+                <th>Poste</th>
+                <th>Demandeur</th>
+                <th>Nombre de postes</th>
+                <th>Salaire</th>
+                <th>Date limite</th>
+                <th>Statut</th>
+                <th>Validation</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="demande : ${demandes}">
+                <td th:text="${demande.id}">1</td>
+
+                <td th:text="${demande.departement.libelle}">
+                    Informatique
+                </td>
+
+                <td th:text="${demande.poste.titre}">
+                    Développeur
+                </td>
+
+                <td th:text="${demande.demandeur.utilisateur.nom}">
+                    RASOA
+                </td>
+
+                <td th:text="${demande.nombrePoste}">
+                    2
+                </td>
+
+                <td th:text="${demande.salaire != null
+                    ? #numbers.formatInteger(demande.salaire, 0, 'WHITESPACE') + ' Ar'
+                    : '-'}">
+                    250000 Ar
+                </td>
+
+                <td th:text="${demande.dateLimite != null
+                    ? #temporals.format(demande.dateLimite, 'dd/MM/yyyy')
+                    : '-'}">
+                    30/11/2026
+                </td>
+
+                <td>
+                    <span class="status"
+                          th:classappend="${
+                              demande.statut.name() == 'EN_ATTENTE_DIRECTION' ? 'en-attente' : ''}">
+                        EN_ATTENTE_DIRECTION
+                    </span>
+                </td>
+                <td>
+  <form th:action="@{/direction/demandes-recrutement/valider}"
+      method="post">
+    <input type="hidden" name="id" th:value="${demande.id}">
+    <button type="submit" class="btn-valider">Valider</button>
+</form>
+
+<form th:action="@{/direction/demandes-recrutement/refuser}"
+      method="post">
+    <input type="hidden" name="id" th:value="${demande.id}">
+    <button type="submit" class="btn-refuser">Refuser</button>
+</form>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(demandes)}">
+                <td colspan="8" class="empty">
+                    Aucune demande de recrutement enregistrée.
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+ <script src="app.js"></script>
+    <script>valid('direction', 'validee')</script>
+    <script>
+    const recherche = document.getElementById("recherche");
+    const lignes = document.querySelectorAll("#tableDemandes tbody tr");
+
+    recherche.addEventListener("input", function () {
+        const texte = this.value.toLowerCase();
+
+        lignes.forEach(function (ligne) {
+            const contenu = ligne.textContent.toLowerCase();
+
+            if (ligne.querySelector(".empty")) {
+                return;
+            }
+
+            ligne.style.display = contenu.includes(texte) ? "" : "none";
+        });
+    });
+</script>
+</body>
 </html>

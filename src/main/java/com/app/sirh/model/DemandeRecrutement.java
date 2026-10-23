@@ -1,6 +1,11 @@
 package com.app.sirh.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.OffsetDateTime;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -112,6 +117,19 @@ public class DemandeRecrutement {
         this.createdAt = createdAt;
     }
 
+    public Integer getSalaire() {
+        return salaire;
+    }
+    public void setSalaire(Integer salaire) {
+        this.salaire = salaire;
+    }
+
+    public LocalDate getDateLimite() {
+        return dateLimite;
+    }
+
+    public void setDateLimite(LocalDate dateLimite) {
+        this.dateLimite = dateLimite;
     @Override
     public boolean equals(Object o) {
         if (this == o)
