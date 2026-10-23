@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{rh/layout/app :: app(contentFragment=~{::#demandeListContent})}">
+<head>
+    <title>Gestion des Demandes de Recrutement - RH</title>
+</head>
+<body>
+    <div id="demandeListContent">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="h3 fw-bold" style="color: var(--ink);">Demandes de Recrutement</h1>
+                <p class="text-muted small">Suivi et validation des besoins exprimés par les départements.</p>
+            </div>
+        </div>
+
+        <!-- Messages de retour -->
+        <div th:if="${param.success}" class="alert alert-success small">Demande validée avec succès et transmise à la Finance.</div>
+        <div th:if="${param.refuse}" class="alert alert-warning small">La demande a été refusée.</div>
+
+        <!-- Tableau des demandes -->
+        <div class="card border-0 shadow-sm bg-white rounded-3 p-3">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light text-uppercase fs-7 text-muted">
+                        <tr>
+                            <th>Numero</th>
+                            <th>Département</th>
+                            <th>Demandeur</th>
+                            <th>Poste</th>
+                            <th>Nombre</th>
+                            <th>Salaire Budgétisé</th>
+                            <th>Statut Actuel</th>
+                            <th class="text-end">Actions / État</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="d : ${demandes}">
+                            <td class="fw-bold" th:text="${d.id}">1</td>
+                            <td th:text="${d.departement.libelle}">Informatique</td>
+                            <td th:text="${d.demandeur.utilisateur.nom + ' ' + d.demandeur.utilisateur.prenom}">Nom Prénom</td>
+                            <td class="fw-semibold" th:text="${d.poste.titre}">Développeur</td>
+                            <td th:text="${d.nombrePoste}">1</td>
+                            <td th:text="${#numbers.formatDecimal(d.salaire, 0, 'COMMA', 2, 'POINT') + ' Ar'}">1 500 000 Ar</td>
+                            
+                            <!-- Colonne Statut avec Badges -->
+                            <td>
+                                <span class="badge" 
+                                      th:classappend="${d.statut.name() == 'EN_ATTENTE_RH' ? 'bg-warning text-dark' : 
+                                                      (d.statut.name() == 'APPROUVEE' ? 'bg-success' : 
+                                                      (d.statut.name() == 'REFUSEE' ? 'bg-danger' : 'bg-info text-dark'))}"
+                                      th:text="${d.statut}">
+                                    EN_ATTENTE_RH
+                                </span>
+                            </td>
+
+                            <!-- Colonne Actions conditionnelles -->
+                            <td class="text-end">
+                                <!-- SI c'est à l'état EN_ATTENTE_RH : Afficher les boutons Valider / Refuser -->
+                                <div th:if="${d.statut.name() == 'EN_ATTENTE_RH'}" class="d-flex gap-2 justify-content-end">
+                                    <form th:action="@{/rh/demandes-recrutement/{id}/valider(id=${d.id})}" method="post">
+                                        <button type="submit" class="btn btn-sm btn-success">Valider</button>
+                                    </form>
+                                    <form th:action="@{/rh/demandes-recrutement/{id}/refuser(id=${d.id})}" method="post">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">Refuser</button>
+                                    </form>
+                                </div>
+
+                                <!-- SINON : Afficher un texte informatif statique -->
+                                <div th:unless="${d.statut.name() == 'EN_ATTENTE_RH'}" class="text-muted small fst-italic">
+                                    En attente de validation ultérieure / Traité
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(demandes)}">
+                            <td colspan="8" class="text-center text-muted py-4">Aucune demande de recrutement enregistrée pour le moment.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
