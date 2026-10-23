@@ -13,9 +13,9 @@ public class DemandeRecrutementForm {
 
     @Min(value = 1, message = "Le nombre de postes doit être au moins de 1")
     private int nombrePoste = 1;
+   
 
-    @DecimalMin(value = "0.0", inclusive = false, message = "Le salaire doit être supérieur à 0")
-    private BigDecimal salaire;
+    private Integer salaire;
 
     // Getters et Setters
     public String getPosteTitre() { return posteTitre; }
@@ -24,6 +24,6 @@ public class DemandeRecrutementForm {
     public int getNombrePoste() { return nombrePoste; }
     public void setNombrePoste(int nombrePoste) { this.nombrePoste = nombrePoste; }
 
-    public BigDecimal getSalaire() { return salaire; }
-    public void setSalaire(BigDecimal salaire) { this.salaire = salaire; }
+    public Integer getSalaire() { return salaire; }
+    public void setSalaire(Integer salaire) { this.salaire = salaire; }
 }
