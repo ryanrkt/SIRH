@@ -146,6 +146,7 @@ CREATE TABLE demande_recrutement (
     poste_id BIGINT NOT NULL REFERENCES poste(id),
     nombre_poste INT NOT NULL DEFAULT 1 CHECK (nombre_poste > 0),
     statut demande_statut_enum NOT NULL DEFAULT 'EN_ATTENTE_RH',
+    salaire INT NOT NULL DEFAULT 1 CHECK (salaire > 0),
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
