@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{rh/layout/app :: app(contentFragment=~{::#demandeContent})}">
+<head>
+    <title>Nouvelle Demande de Recrutement - SIRH</title>
+</head>
+<body>
+    <!-- Ce bloc sera injecté dynamiquement dans la balise <main> de app.html -->
+    <div id="demandeContent">
+        
+        <div class="card p-4 shadow-sm mx-auto border-0" style="max-width: 650px; background-color: #ffffff;">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-1" style="color: var(--ink);">Exprimer un besoin de recrutement</h1>
+                    <p class="text-muted mb-0 small">Département : <strong th:text="${departement.libelle}">RH</strong></p>
+                </div>
+            </div>
+
+            <!-- Message de succès -->
+            <div th:if="${param.success}" class="alert alert-success fw-semibold small"
+                style="background-color: #dcf0e6; color: var(--ok); border: none;">
+                Votre demande de recrutement a été soumise avec succès !
+            </div>
+
+            <!-- Formulaire avec Autocompletion HTML5 natif -->
+            <form th:action="@{/demandes-recrutement/nouvelle}" th:object="${demandeForm}" method="post">
+
+                <div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger small">
+                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+                </div>
+
+                <!-- Champ Poste (Autocompletion) -->
+                <label class="mb-3 w-100 fw-semibold text-secondary small">
+                    Poste concerné (Commencez à taper...)
+                    <input type="text" th:field="*{posteTitre}" class="form-control mt-1" list="postesSuggestions" required
+                        placeholder="Ex: Développeur Backend">
+                    <datalist id="postesSuggestions">
+                        <option th:each="p : ${postes}" th:value="${p.titre}"></option>
+                    </datalist>
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('posteTitre')}"
+                        th:errors="*{posteTitre}"></div>
+                </label>
+
+                <!-- Champ : Salaire budgétisé -->
+                <label class="mb-3 w-100 fw-semibold text-secondary small">
+                    Salaire mensuel proposé / budgétisé (en Ariary)
+                    <input type="number" step="100" th:field="*{salaire}" class="form-control mt-1" min="0" required
+                        placeholder="Ex: 1500000">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('salaire')}" th:errors="*{salaire}">
+                    </div>
+                </label>
+
+                <!-- Champ Nombre de postes -->
+                <label class="mb-4 w-100 fw-semibold text-secondary small">
+                    Nombre de postes à pourvoir
+                    <input type="number" th:field="*{nombrePoste}" class="form-control mt-1" min="1" required value="1">
+                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('nombrePoste')}"
+                        th:errors="*{nombrePoste}"></div>
+                </label>
+
+                <button type="submit" class="btn-custom ok w-100 py-2">Soumettre la demande</button>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

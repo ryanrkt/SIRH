@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .requestMatchers("/finance/**").hasRole("MANAGER")
                 .requestMatchers("/direction/**").hasRole("MANAGER")
                 .requestMatchers("/dept-*/**").hasRole("MANAGER")
+                .requestMatchers("/demandes-recrutement/nouvelle").hasRole("MANAGER")
                 
                 // Toutes les autres requêtes nécessitent une authentification
                 .anyRequest().authenticated()

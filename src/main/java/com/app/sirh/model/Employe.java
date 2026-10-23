@@ -21,8 +21,9 @@ public class Employe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "utilisateur_id", nullable = false, unique = true)
+    // Dans Employe.java
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "utilisateur_id", unique = true, nullable = false)
     private Utilisateur utilisateur;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -76,5 +77,4 @@ public class Employe {
         this.dateEmbauche = dateEmbauche;
     }
 
-    
 }

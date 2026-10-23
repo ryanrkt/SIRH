@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+    <nav th:fragment="sidebar" class="d-flex flex-column flex-shrink-0 p-3 bg-white border-end shadow-sm"
+        style="width: 280px; min-height: 100vh;">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
+            <span class="fs-4 fw-bold" style="color: var(--ac, #1f5f8b);">Espace RH</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item mb-1">
+                <a th:href="@{/rh/dashboard}" class="nav-link text-dark active">
+                    Tableau de bord
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a th:href="@{/demandes-recrutement/nouvelle}" class="nav-link text-dark">
+                    Exprimer un besoin
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a href="#" class="nav-link text-dark">
+                    Liste des employés
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a href="#" class="nav-link text-dark">
+                    Offres d'emploi
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle text-dark"
+                id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <strong>Mon Compte</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">Profil</a></li>
+                <li>
+                    <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="/logout">Déconnexion</a></li>
+            </ul>
+        </div>
+    </nav>
+</body>
+
+</html>
