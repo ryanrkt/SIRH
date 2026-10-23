@@ -13,4 +13,10 @@ public interface PosteRepository extends JpaRepository<Poste, Long> {
     boolean existsByDepartementIdAndTitre(Long departementId, String titre);
 
      long countByDepartement_Id(Long departementId);
+
+
+    List<Poste> findByDepartementId(Long departementId);
+    
+    // Recherche sécurisée d'un poste par son département et son titre exact
+    Optional<Poste> findByDepartementIdAndTitreIgnoreCase(Long departementId, String titre);
 }

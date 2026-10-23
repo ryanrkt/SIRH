@@ -7,6 +7,10 @@ import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.Objects;
+
 @Entity
 @Table(name = "demande_recrutement")
 public class DemandeRecrutement {
@@ -15,61 +19,48 @@ public class DemandeRecrutement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "departement_id", nullable = false)
     private Departement departement;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "demandeur_id", nullable = false)
     private Employe demandeur;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "poste_id", nullable = false)
     private Poste poste;
 
     @Column(name = "nombre_poste", nullable = false)
-    private Integer nombrePoste = 1;
-
-     @Column(name = "salaire", nullable = false)
-    private Integer salaire;
-
-    @Column(name = "date_limite")
-    private LocalDate dateLimite;
+    private int nombrePoste = 1;
 
     @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
-    @Column(
-        name = "statut",
-        nullable = false,
-        columnDefinition = "demande_statut_enum"
-    )
+    @Column(name = "statut", nullable = false, length = 50)
     private DemandeStatutEnum statut = DemandeStatutEnum.EN_ATTENTE_RH;
 
-    @Column(
-        name = "created_at",
-        nullable = false,
-        columnDefinition = "TIMESTAMPTZ"
-    )
-    private OffsetDateTime createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private OffsetDateTime createdAt = OffsetDateTime.now();
+
+    @Column(name = "salaire", nullable = false, precision = 12, scale = 2)
+    private BigDecimal salaire;
+
+    // Getter et Setter
+    public BigDecimal getSalaire() {
+        return salaire;
+    }
+
+    public void setSalaire(BigDecimal salaire) {
+        this.salaire = salaire;
+    }
 
     public DemandeRecrutement() {
     }
 
-    @PrePersist
-    public void avantEnregistrement() {
-        if (createdAt == null) {
-            createdAt = OffsetDateTime.now();
-        }
-
-        if (statut == null) {
-            statut = DemandeStatutEnum.EN_ATTENTE_RH;
-        }
-
-        if (nombrePoste == null) {
-            nombrePoste = 1;
-        }
+    public enum DemandeStatutEnum {
+        EN_ATTENTE_RH, EN_ATTENTE_FINANCE, EN_ATTENTE_DIRECTION, APPROUVEE, REFUSEE
     }
 
+    // Getters et Setters
     public Long getId() {
         return id;
     }
@@ -102,21 +93,21 @@ public class DemandeRecrutement {
         this.poste = poste;
     }
 
-    public Integer getNombrePoste() {
+    public int getNombrePoste() {
         return nombrePoste;
     }
 
-    public void setNombrePoste(Integer nombrePoste) {
+    public void setNombrePoste(int nombrePoste) {
         this.nombrePoste = nombrePoste;
     }
 
-  public DemandeStatutEnum getStatut() {
-    return statut;
-}
+    public DemandeStatutEnum getStatut() {
+        return statut;
+    }
 
-public void setStatut(DemandeStatutEnum statut) {
-    this.statut = statut;
-}
+    public void setStatut(DemandeStatutEnum statut) {
+        this.statut = statut;
+    }
 
     public OffsetDateTime getCreatedAt() {
         return createdAt;
@@ -139,5 +130,18 @@ public void setStatut(DemandeStatutEnum statut) {
 
     public void setDateLimite(LocalDate dateLimite) {
         this.dateLimite = dateLimite;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        DemandeRecrutement that = (DemandeRecrutement) o;
+        return id != null && id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

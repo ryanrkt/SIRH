@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{rh/layout/app :: app(contentFragment=~{::#dashboardContent})}">
+<head>
+    <title>Tableau de bord - RH</title>
+</head>
+<body>
+    <!-- Ce bloc sera injecté dans la balise <main> de app.html -->
+    <div id="dashboardContent">
+        
+        <!-- En-tête de bienvenue -->
+        <div class="mb-4">
+            <h1 class="h3 fw-bold" style="color: var(--ink);">Tableau de bord </h1>
+            <p class="text-muted">
+                Bienvenue, <span class="fw-semibold" th:text="${employeConnecte != null ? employeConnecte.utilisateur.prenom : 'Gestionnaire'}">Utilisateur</span>. 
+                Voici un aperçu de l'activité du personnel.
+            </p>
+        </div>
+
+        <!-- Cartes de statistiques (Widgets) -->
+        <div class="row g-4 mb-4">
+            <!-- Carte 1 : Employés -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted small text-uppercase mb-1">Employés Actifs</h6>
+                            <h2 class="fw-bold mb-0" th:text="${totalEmployes}">0</h2>
+                        </div>
+                        <div class="p-3 rounded-2" style="background-color: #e6f0fa; color: #1f5f8b;">
+                            👥
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 2 : Demandes de Recrutement -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted small text-uppercase mb-1">Demandes de Recrutement</h6>
+                            <h2 class="fw-bold mb-0" th:text="${totalDemandes}">0</h2>
+                        </div>
+                        <div class="p-3 rounded-2" style="background-color: #fff3cd; color: #856404;">
+                            📋
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Carte 3 : Offres d'emploi -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm p-3 bg-white rounded-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-muted small text-uppercase mb-1">Offres Publiées</h6>
+                            <h2 class="fw-bold mb-0">0</h2>
+                        </div>
+                        <div class="p-3 rounded-2" style="background-color: #dcf0e6; color: #155724;">
+                            📢
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section des Actions Rapides -->
+        <div class="card border-0 shadow-sm p-4 bg-white rounded-3">
+            <h4 class="h5 mb-3 fw-bold" style="color: var(--ink);">Actions Rapides</h4>
+            <p class="text-muted small mb-4">Accédez rapidement aux fonctionnalités principales de gestion des ressources humaines.</p>
+            
+            <div class="d-flex flex-wrap gap-3">
+                <a th:href="@{/demandes-recrutement/nouvelle}" class="btn btn-primary px-4 py-2" style="background-color: #1f5f8b; border: none;">
+                    + Exprimer un besoin de recrutement
+                </a>
+                <a href="#" class="btn btn-outline-secondary px-4 py-2">
+                    Consulter la liste des employés
+                </a>
+                <a href="#" class="btn btn-outline-secondary px-4 py-2">
+                    Gérer les offres d'emploi
+                </a>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

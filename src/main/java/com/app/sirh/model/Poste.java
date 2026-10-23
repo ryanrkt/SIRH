@@ -12,14 +12,14 @@ public class Poste {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "departement_id", nullable = false)
     private Departement departement;
 
-    @Column(nullable = false, length = 150)
+    @Column(name = "titre", nullable = false, length = 150)
     private String titre;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     public Poste() {
@@ -55,5 +55,19 @@ public class Poste {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // equals et hashCode basés sur l'ID (bonnes pratiques JPA)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Poste poste = (Poste) o;
+        return id != null && id.equals(poste.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
