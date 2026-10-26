@@ -1,0 +1,203 @@
+/* =====================================================================
+   finance.css : page Finance (demandes de recrutement)
+   Autonome : ne dépend pas de style.css
+   ===================================================================== */
+
+:root {
+  --bg: #eef1f4;
+  --ink: #16202c;
+  --mut: #5d6b7a;
+  --line: #d5dce3;
+  --ac: #1f5f8b;
+  --ok: #2b7a57;
+  --no: #b23b2e;
+  --wa: #a8700f;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body.page-body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* --- Mise en page --- */
+.page-container {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px 15px;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 10px 25px rgba(22, 32, 44, 0.05);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 20px;
+  text-align: left;
+}
+
+/* --- Tableau --- */
+.table-wrap {
+  overflow-x: auto;
+}
+
+.table-custom {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table-custom th {
+  text-align: left;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mut);
+  padding: 10px 12px;
+  border-bottom: 2px solid var(--line);
+  white-space: nowrap;
+}
+
+.table-custom td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.table-custom tbody tr:hover {
+  background: #f6f8fa;
+}
+
+.table-custom .num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table-custom .sub {
+  font-size: 12px;
+  color: var(--mut);
+}
+
+.table-custom .empty {
+  text-align: center;
+  color: var(--mut);
+  padding: 30px;
+}
+
+/* Disparition animée d'une ligne traitée */
+.table-custom tr.row-removing {
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+/* --- Actions --- */
+.actions-col {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.actions-col form {
+  display: inline-block;
+  margin: 0 0 0 6px;
+}
+
+.btn-custom {
+  display: inline-block;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ac);
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.btn-custom.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.btn-custom.ok { background: var(--ok); }
+.btn-custom.ok:hover { background: #236145; }
+
+.btn-custom.no { background: var(--no); }
+.btn-custom.no:hover { background: #8f2f25; }
+
+.btn-custom:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* --- Badges de statut --- */
+.badge-statut {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: var(--line);
+  color: var(--mut);
+}
+
+.badge-statut.EN_ATTENTE_RH        { background: #e3ecf4; color: var(--ac); }
+.badge-statut.EN_ATTENTE_FINANCE   { background: #f6e8cc; color: var(--wa); }
+.badge-statut.EN_ATTENTE_DIRECTION { background: #e6e0f3; color: #5b3f9a; }
+.badge-statut.APPROUVEE            { background: #dcf0e6; color: var(--ok); }
+.badge-statut.REFUSEE              { background: #f7dfdb; color: var(--no); }
+
+/* --- Toasts --- */
+#toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.toast {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(22, 32, 44, 0.15);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.toast-success { background: #dcf0e6; color: var(--ok); }
+.toast-error   { background: #f7dfdb; color: var(--no); }
+
+/* --- Petits écrans --- */
+@media (max-width: 600px) {
+  .card { padding: 18px; }
+  .page-title { font-size: 19px; }
+}
