@@ -1,20 +1,73 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Finance – Recrut</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Finance - Demandes de recrutement</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 </head>
 
-<body>
-    <main>
-        <h1>Validation financière des demandes</h1>
-        <div class="card tw" id="t"></div>
-    </main>
-    <script src="/js/app.js"></script>
-    <script>valid('finance', 'direction')</script>
+<body class="page-body">
+    <div class="page-container">
+        <div class="card">
+            <h1 class="page-title">Demandes de recrutement</h1>
+
+            <div id="toast-container"></div>
+
+            <div class="table-wrap">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Poste</th>
+                            <th>Département</th>
+                            <th>Demandeur</th>
+                            <th class="num">Postes</th>
+                            <th class="num">Salaire</th>
+                            <th>Statut</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="d : ${demandes}" th:data-id="${d.id}">
+                            <td>
+                                <strong th:text="${d.poste.titre}"></strong>
+                                <div class="sub" th:text="${#temporals.format(d.createdAt, 'dd/MM/yyyy')}"></div>
+                            </td>
+                            <td th:text="${d.departement.libelle}"></td>
+                            <td th:text="${d.demandeur.matricule}"></td>
+                            <td class="num" th:text="${d.nombrePoste}"></td>
+                            <td class="num"
+                                th:text="${d.salaire != null ? #numbers.formatInteger(d.salaire, 1, 'WHITESPACE') : '-'}">
+                            </td>
+                            <td>
+                                <span class="badge-statut" th:classappend="${d.statut.name()}"
+                                    th:text="${d.statut.name().replace('_', ' ')}"></span>
+                            </td>
+                            <td class="actions-col">
+                                <th:block th:if="${d.statut.name() == 'EN_ATTENTE_FINANCE'}">
+                                    <form class="js-action-form" th:action="@{/finance/dashboard/{id}/accepter(id=${d.id})}"
+                                        method="post">
+                                        <button type="submit" class="btn-custom btn-sm ok">Accepter</button>
+                                    </form>
+                                    <form class="js-action-form" data-confirm="Refuser cette demande ?"
+                                        th:action="@{/finance/dashboard/{id}/refuser(id=${d.id})}" method="post">
+                                        <button type="submit" class="btn-custom btn-sm no">Refuser</button>
+                                    </form>
+                                </th:block>
+                            </td>
+                        </tr>
+                        <tr id="empty-row" th:style="${#lists.isEmpty(demandes)} ? '' : 'display:none'">
+                            <td colspan="7" class="empty">Aucune demande.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/js/finance.js}"></script>
 </body>
 
 </html>

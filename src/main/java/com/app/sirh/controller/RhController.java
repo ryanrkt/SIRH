@@ -1,11 +1,5 @@
 package com.app.sirh.controller;
 
-import com.app.sirh.model.DemandeRecrutement;
-import com.app.sirh.model.DemandeRecrutement.DemandeStatutEnum;
-import com.app.sirh.repository.DemandeRecrutementRepository;
-import com.app.sirh.repository.EmployeRepository;
-import com.app.sirh.security.CustomUserDetails;
-
 import java.util.List;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.app.sirh.model.DemandeRecrutement;
+import com.app.sirh.model.DemandeStatutEnum;
+import com.app.sirh.repository.DemandeRecrutementRepository;
+import com.app.sirh.repository.EmployeRepository;
+import com.app.sirh.security.CustomUserDetails;
 
 @Controller
 @RequestMapping("/rh")
